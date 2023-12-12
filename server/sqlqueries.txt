@@ -5,9 +5,9 @@ BEFORE INSERT ON customers
 FOR EACH ROW
 BEGIN
     DECLARE new_id INT;
-    -- Get the next auto-increment value
+    
     SELECT AUTO_INCREMENT INTO new_id FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'customers';
-    -- Set the new customer_id with the 'CU' prefix and the next auto-increment value
+    
     SET NEW.customer_id = CONCAT('CU', LPAD(new_id, 2, '0'));
 END;
 //
