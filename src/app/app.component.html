@@ -1,4 +1,5 @@
+ <app-authheader *ngIf="!authService.isAuthenticated()"></app-authheader>
 
+<app-header  *ngIf="authService.isAuthenticated()"></app-header> 
 
-<app-authheader *ngIf="!authService.isAuthenticated()"></app-authheader>
-<app-header *ngIf="authService.isAuthenticated()"></app-header>
+<!-- <app-product-container></app-product-container> -->

@@ -6,6 +6,9 @@ const queryAsync = util.promisify(db.query.bind(db));
 
 // const staticCustomer_id = 'CU01';
 
+
+//user
+
 const handleErrors = (err) => {
   if (err.sqlState) {
     console.error(`ErrorState: ${err.sqlState}, ErrorMessage: ${err.sqlMessage}`);
@@ -63,4 +66,30 @@ const loginValidation = async (req, res) => {
   }
 };
 
-module.exports={addCustomer,loginValidation}
+//getProducts
+
+const getProducts = async (req, res) => {
+  try {
+    let { limit, sort, category } = req.query;
+
+    let query = "SELECT products.product_name, categories.category_name, products.price, products.stock_quantity FROM products JOIN categories ON products.category_id = categories.category_id";
+
+    if (category) {
+      query += " WHERE categories.category_name = '" + category + "'";
+    }
+
+    query += ` ORDER BY products.product_name ${sort} LIMIT ${limit}`;
+
+    const products = await queryAsync(query);
+
+    res.json(products);
+  } catch (error) {
+    handleErrors(error);
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+  
+
+module.exports={addCustomer,loginValidation,getProducts}

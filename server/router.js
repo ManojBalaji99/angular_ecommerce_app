@@ -9,7 +9,7 @@ router.post("/addCustomer", addCustomer)
 router.put("/login", loginValidation)
 
 
-// router.get("/products", getProducts)
+router.get("/products", getProducts)
 // router.post("/orderPlaced", orderPlaced)
 // router.put("/orderCancelled", orderCancelled)
 

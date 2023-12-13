@@ -1,0 +1,25 @@
+<mat-card *ngIf="product" [class.text-center]="!fullWidthMode" [class.mb-3]="fullWidthMode"
+    [class.border]="fullWidthMode" [class.border-primary]="fullWidthMode">
+    <div [class.flex]="fullWidthMode">
+        <img class="mb-1 mx-auto" [class.h-[200px]]="!fullWidthMode" [class.h-[360px]]="fullWidthMode"
+            [src]="" alt="Product Image" />
+        <div class="w-full" [class.px-8]="fullWidthMode" [class.flex]="fullWidthMode" [class.flex-col]="fullWidthMode"
+            [class.justify-between]="fullWidthMode">
+            <mat-card-header>
+                <mat-card-title>{{ product.product_name }}</mat-card-title>
+                <mat-card-subtitle>{{ product.category }}</mat-card-subtitle>
+            </mat-card-header>
+            <div class="mat-card-content">
+                <p class="font-weight-bold">Price: {{ product.price | currency : "INR"}}</p>
+                <mat-form-field appearance="fill">
+                    <mat-label>Quantity</mat-label>
+                    <input matInput type="number" [(ngModel)]="quantity" min="0" />
+                </mat-form-field>
+            </div>
+            <div class="mat-card-actions">
+                <button mat-button class="border border-primary" (click)="onAddToCart()">Add to cart</button>
+            </div>
+        </div>
+    </div>
+</mat-card>
+

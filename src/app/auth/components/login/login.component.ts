@@ -28,11 +28,10 @@ export class LoginComponent {
         else {
           this.errorMessage=""
           this.successMessage = res.message
-          this.customer_id = res.user_id
+          this.authService.customer_id = res.user_id
           if (res.token_id) {
             this.authService.setToken(res.token_id)
           }
-          console.log(this.customer_id)
            console.log(res.token_id)
         }
       })
