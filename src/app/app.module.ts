@@ -37,6 +37,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { FiltersComponent } from './pages/home/components/filters/filters.component';
 import { ProductsHeaderComponent } from './pages/home/components/products-header/products-header.component';
 import { ProductContainerComponent } from './pages/home/components/product-container/product-container.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { OrderhistoryComponent } from './pages/orderhistory/orderhistory.component';
 
 
 @NgModule({
@@ -50,7 +52,9 @@ import { ProductContainerComponent } from './pages/home/components/product-conta
     HomeComponent,
     FiltersComponent,
     ProductsHeaderComponent,
-    ProductContainerComponent
+    ProductContainerComponent,
+    CheckoutComponent,
+    OrderhistoryComponent
   ],
   imports: [
     BrowserModule,

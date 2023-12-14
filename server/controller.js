@@ -90,6 +90,47 @@ const getProducts = async (req, res) => {
   }
 };
 
-  
+// cart product
 
-module.exports={addCustomer,loginValidation,getProducts}
+const cartProductbyCustomer =  async (req, res)=>{
+
+  let { customer_id, products } = req.body
+  
+  try {
+    await queryAsync("DELETE FROM cartProducts WHERE customer_id = ?", [customer_id])
+    if (products.length > 0) {
+      products.forEach(async (product) => {
+        await queryAsync("INSERT INTO cartProducts (customer_id, product_name,quantity) VALUES (?, ?,?)",[customer_id,product.product_name,product.quantity])
+      })
+      res.json({success : " True"})
+    }
+  }
+  catch(error) {
+    handleErrors(error);
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+}
+  
+const getCartProductofCustomer = async (req, res) => {
+  let { customer_id } = req.query;
+
+  try {
+    if (customer_id) {
+      const products = await queryAsync(
+        "SELECT cartProducts.product_name, cartProducts.quantity, products.price FROM products JOIN cartProducts ON cartProducts.product_name = products.product_name JOIN categories on products.category_id = categories.category_id  WHERE cartProducts.customer_id=?",
+        [customer_id]
+      );
+      res.json(products);
+    } else {
+      res.json({ products: "" });
+    }
+  } catch (error) {
+    handleErrors(error);
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+
+module.exports={addCustomer,loginValidation,getProducts,cartProductbyCustomer,getCartProductofCustomer}

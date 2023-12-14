@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
+import { CartService } from 'src/app/services/cart.service';
+
 
 @Component({
   selector: 'app-login',
@@ -15,7 +18,10 @@ export class LoginComponent {
 
 
   constructor(public http: HttpClient,
-              public authService : AuthService) { }
+    public authService: AuthService,
+    public cartService : CartService,
+    public router: Router) { }
+    
   
   onSubmit() {
     if (this.userLogin.email && this.userLogin.password) {
@@ -29,10 +35,13 @@ export class LoginComponent {
           this.errorMessage=""
           this.successMessage = res.message
           this.authService.customer_id = res.user_id
+          this.cartService.customer_id = res.user_id
           if (res.token_id) {
             this.authService.setToken(res.token_id)
+            this.router.navigate(["/home"])
+
+            
           }
-           console.log(res.token_id)
         }
       })
     }
@@ -41,4 +50,6 @@ export class LoginComponent {
       this.errorMessage="Please enter a email and password to login "
     }
   }
+
+ 
 }

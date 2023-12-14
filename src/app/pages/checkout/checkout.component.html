@@ -1,0 +1,67 @@
+
+
+<div class="checkout-container">
+    <h2>Checkout</h2>
+
+    
+    <mat-card>
+        <mat-card-title>Order Summary</mat-card-title>
+        <mat-card-content>
+           
+        <mat-card class="cart-card" *ngFor="let product of cart.items">
+            <mat-card-title>{{ product.product_name }}</mat-card-title>
+            <mat-card-content>
+                <p>Quantity: {{ product.quantity }}</p>
+                <p>Total: {{ (product.quantity * product.price) | currency:"INR" }}</p>
+            </mat-card-content>
+        </mat-card>
+        </mat-card-content>
+    </mat-card>
+    <!-- user information -->
+    <form (ngSubmit)="submitOrder()" #checkoutForm="ngForm">
+        <mat-card>
+            <mat-card-title>Shipping Information</mat-card-title>
+            <mat-card-content>
+                
+                <mat-form-field>
+                    <input matInput placeholder="Full Name" name="fullName" ngModel required>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Address" name="address" ngModel required>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="City" name="city" ngModel required>
+                </mat-form-field>
+
+                <!-- Add more fields as needed -->
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Payment Information Form -->
+        <mat-card>
+            <mat-card-title>Payment Information</mat-card-title>
+            <mat-card-content>
+                <!-- Replace the input fields with your desired payment form fields -->
+                <mat-form-field>
+                    <input matInput placeholder="Card Number" name="cardNumber" ngModel required>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Expiration Date" name="expirationDate" ngModel required>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="CVV" name="cvv" ngModel required>
+                </mat-form-field>
+
+                <!-- Add more fields as needed -->
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Submit Button -->
+        <button mat-raised-button color="primary" type="submit" [disabled]="!checkoutForm.valid">Place Order</button>
+    </form>
+</div>
+

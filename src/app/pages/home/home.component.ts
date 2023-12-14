@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { StoreService } from 'src/app/services/store.service';
+import { CartService } from 'src/app/services/cart.service';
 import { Product } from 'src/modals/product.modal';
 
 @Component({
@@ -26,7 +27,8 @@ export class HomeComponent implements OnInit {
   
 
   constructor(public storeService: StoreService,
-              public authService : AuthService) { }
+    public authService: AuthService,
+    public cartService: CartService) { }
   
   getCategory(selectedCategory: string) {
     this.category = selectedCategory
@@ -54,6 +56,7 @@ export class HomeComponent implements OnInit {
   onAddToCart(product: any) {
   
     console.log(product)
+    this.cartService.addToCart(product)
 
 }
   
@@ -80,6 +83,7 @@ export class HomeComponent implements OnInit {
     this.customer_id = this.authService.customer_id;
     console.log(this.customer_id)
     this.getProducts()
+    this.cartService.getCartHistory(this.customer_id)
   }
 
   
