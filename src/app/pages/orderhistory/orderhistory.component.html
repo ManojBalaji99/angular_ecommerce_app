@@ -1,1 +1,146 @@
-<p>orderhistory works!</p>
+<mat-tab-group>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <span [matBadge]="count.placedCount" matBadgeOverlap="false">Placed</span>
+        </ng-template>
+        <div *ngIf="orderhistory && orderhistory.length">
+            <ng-container *ngFor="let order of orderhistory">
+                <mat-expansion-panel *ngIf="order.status == 'Placed'">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Order_id : {{order.orderid}} </mat-panel-title>
+                        <mat-panel-description>Order was {{order.status}}</mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <table class="table table-bordered table-striped order-table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Product</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-center">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of order.products">
+                                <td class="text-center">{{product.product_name}}</td>
+                                <td class="text-center">{{product.quantity}}</td>
+                                <td class="text-center">{{product.subtotal | currency:"INR"}}</td>
+                            </tr>
+                            <tr class="tr-darker">
+                                <td colspan="2" class="text-center"><strong>Total</strong></td>
+                                <td class="text-center"><strong>{{order.total | currency:"INR"}}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-between">
+                        <button mat-button class="border border-info" [matMenuTriggerFor]="menu">Time and Date</button>
+                        <div>
+                            <button class="bg-danger" (click) ="cancelOrder(order.orderid)" >Cancel Order</button>
+                            <button class="mx-3 bg-success" (click) = "deliverOrder(order.orderid)">Deliver Order</button>
+                        </div>
+                    </div>
+
+                    <mat-menu #menu="matMenu">
+                        <div>
+                            Order Placed on {{order.placed_time | date:'dd-MM-yyyy HH:mm:ss'}}
+                        </div>
+                    </mat-menu>
+                </mat-expansion-panel>
+            </ng-container>
+        </div>
+    </mat-tab>
+    <mat-tab>
+            <ng-template mat-tab-label>
+                <span [matBadge]="count.cancelledCount" matBadgeOverlap="false">Cancelled</span>
+            </ng-template>
+            <div *ngIf="orderhistory && orderhistory.length">
+                <ng-container *ngFor="let order of orderhistory">
+                    <mat-expansion-panel *ngIf="order.status == 'Cancelled'">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>Order_id : {{order.orderid}} </mat-panel-title>
+                            <mat-panel-description>Order was {{order.status}}</mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <table class="table table-bordered table-striped order-table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="text-center">Product</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-center">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let product of order.products">
+                                    <td class="text-center">{{product.product_name}}</td>
+                                    <td class="text-center">{{product.quantity}}</td>
+                                    <td class="text-center">{{product.subtotal | currency:"INR"}}</td>
+                                </tr>
+                                <tr class="tr-darker">
+                                    <td colspan="2" class="text-center"><strong>Total</strong></td>
+                                    <td class="text-center"><strong>{{order.total | currency:"INR"}}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-between">
+                            <button mat-button class="border border-info" [matMenuTriggerFor]="menu">Time and Date</button>
+                        </div>
+        
+                        <mat-menu #menu="matMenu">
+                            <div>
+                                Order Placed on {{order.placed_time | date:'dd-MM-yyyy HH:mm:ss'}}
+                            </div>
+                            <div>
+                                Order Cancelled on {{order.cancelled_time | date:'dd-MM-yyyy HH:mm:ss'}}
+                            </div>
+                        </mat-menu>
+                    </mat-expansion-panel>
+                </ng-container>
+            </div>
+        </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <span [matBadge]="count.deliveredCount" matBadgeOverlap="false">Delivered</span>
+        </ng-template>
+        <div *ngIf="orderhistory && orderhistory.length">
+            <ng-container *ngFor="let order of orderhistory">
+                <mat-expansion-panel *ngIf="order.status == 'Delivered'">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Order_id : {{order.orderid}} </mat-panel-title>
+                        <mat-panel-description>Order was {{order.status}}</mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <table class="table table-bordered table-striped order-table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Product</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-center">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of order.products">
+                                <td class="text-center">{{product.product_name}}</td>
+                                <td class="text-center">{{product.quantity}}</td>
+                                <td class="text-center">{{product.subtotal | currency:"INR"}}</td>
+                            </tr>
+                            <tr class="tr-darker">
+                                <td colspan="2" class="text-center"><strong>Total</strong></td>
+                                <td class="text-center"><strong>{{order.total | currency:"INR"}}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-between">
+                        <button mat-button class="border border-info" [matMenuTriggerFor]="menu">Time and Date</button>
+                    </div>
+    
+                    <mat-menu #menu="matMenu">
+                        <div>
+                            Order Placed on {{order.placed_time | date:'dd-MM-yyyy HH:mm:ss'}}
+                        </div>
+                        <div>
+                            Order Cancelled on {{order.delivered_time | date:'dd-MM-yyyy HH:mm:ss'}}
+                        </div>
+                    </mat-menu>
+                </mat-expansion-panel>
+            </ng-container>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+   

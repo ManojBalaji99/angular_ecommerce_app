@@ -132,5 +132,145 @@ const getCartProductofCustomer = async (req, res) => {
   }
 };
 
+const orderPlaced = async (req, res) => {
+  const { paymentDetails, products, shippingAddress } = req.body;
 
-module.exports={addCustomer,loginValidation,getProducts,cartProductbyCustomer,getCartProductofCustomer}
+  try {
+    const total_amount_products = products.reduce((total, product) => {
+      let subtotal = product.quantity * Number(product.price);
+      return total + subtotal;
+    }, 0);
+
+   
+
+    await queryAsync("INSERT INTO orders (customer_id, total_amount, status, payment_method, payments_details) VALUES (?, ?, ?, ?, ?)",
+      [shippingAddress.customer_id, total_amount_products, "Placed", paymentDetails.method, JSON.stringify(paymentDetails.details)]);
+
+    const order_idDB = await queryAsync("SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1");
+
+  
+    // shipping address
+
+          await queryAsync("INSERT INTO customerShippingAddress (customer_id, order_id, full_name, address, city) VALUES (?, ?, ?, ?, ?)",
+        [shippingAddress.customer_id, order_idDB[0].order_id, shippingAddress.full_name, shippingAddress.address, shippingAddress.city]);
+   // order details and quantity update
+    for (const product of products) {
+      let product_amount = product.quantity * Number(product.price);
+
+
+
+      await queryAsync("INSERT INTO order_details (order_id, product_id, quantity, subtotal) VALUES (?, (SELECT product_id FROM products WHERE product_name = ?), ?, ?)",
+        [order_idDB[0].order_id, product.product_name, product.quantity, product_amount]);
+
+
+      await queryAsync("UPDATE products AS p1 " +
+        "JOIN (SELECT stock_quantity FROM products WHERE product_name = ?) AS p2 " +
+        "SET p1.stock_quantity = p2.stock_quantity - ? " +
+        "WHERE p1.product_name = ?",
+        [product.product_name, product.quantity, product.product_name]);
+    }
+
+    res.json({ success: true, message: "Order Placed", order_id: order_idDB[0].order_id });
+  } catch (error) {
+    console.error(error); // Log the error
+    handleErrors(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+// get order history
+
+const getOrderHistory = async (req, res) => {
+  const { customer_id } = req.query 
+
+  try {
+    const query = `
+      SELECT
+        orders.order_id,
+        orders.customer_id,
+        orders.status,
+        products.product_name,
+        order_details.quantity,
+        order_details.subtotal,
+        orders.total_amount,
+        orders.placed_time,
+        orders.cancelled_time,
+        orders.delivered_time
+      FROM
+        orders
+      JOIN
+        order_details ON orders.order_id = order_details.order_id
+      JOIN
+        products ON products.product_id = order_details.product_id
+      WHERE
+        orders.customer_id = ?
+    `;
+
+    const orderHistory = await queryAsync(query, [customer_id]);
+    res.json(orderHistory);
+  } catch (error) {
+    console.error(error); // Log the error
+    handleErrors(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const orderCancelled = async (req, res) => {
+  const { customer_id, order_id } = req.body;
+
+  try {
+    // Retrieve the products
+    const products = await queryAsync(
+      "SELECT order_details.product_id, order_details.quantity FROM orders " +
+        "JOIN order_details ON orders.order_id = order_details.order_id " +
+        "WHERE order_details.order_id = ? && orders.customer_id = ? ",
+      [order_id, customer_id]
+    );
+
+    // Update the status
+    await queryAsync("UPDATE orders SET status = ? WHERE order_id = ?", [
+      "Cancelled",
+      order_id,
+    ]);
+
+    // Update the quantity for each product
+    for (const product of products) {
+      await queryAsync(
+        "UPDATE products AS p1 " +
+          "JOIN (SELECT stock_quantity FROM products WHERE product_id = ?) AS p2 " +
+          "SET p1.stock_quantity = p2.stock_quantity + ? " +
+          "WHERE p1.product_id = ?",
+        [product.product_id, product.quantity, product.product_id]
+      );
+    }
+
+    res.json({ message: "Order Cancelled" });
+  } catch (error) {
+    handleErrors(error);
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const orderDelivered = async (req, res) => {
+  const { customer_id, order_id } = req.body;
+
+  try {
+     await queryAsync("UPDATE orders SET status = ? WHERE order_id = ?", [
+      "Delivered",
+      order_id,
+     ]);
+    
+    res.json({message : "orderDelivered"})
+  }
+  catch(error){
+    handleErrors(error);
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+}
+
+
+
+
+module.exports={addCustomer,loginValidation,getProducts,cartProductbyCustomer,getCartProductofCustomer,orderPlaced,getOrderHistory,orderCancelled,orderDelivered}

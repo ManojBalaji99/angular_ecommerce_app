@@ -27,6 +27,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import { SignupComponent } from './auth/components/signup/signup.component';
 import { LoginComponent } from './auth/components/login/login.component';
@@ -39,6 +41,7 @@ import { ProductsHeaderComponent } from './pages/home/components/products-header
 import { ProductContainerComponent } from './pages/home/components/product-container/product-container.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { OrderhistoryComponent } from './pages/orderhistory/orderhistory.component';
+
 
 
 @NgModule({
@@ -75,6 +78,10 @@ import { OrderhistoryComponent } from './pages/orderhistory/orderhistory.compone
     MatSnackBarModule,
     MatFormFieldModule,
     MatInputModule,
+    MatRadioModule,
+    MatTabsModule,
+
+
     FormsModule,
     HttpClientModule,
     JwtModule.forRoot({

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { CartService } from 'src/app/services/cart.service';
+import { OrderService } from 'src/app/services/order.service';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class LoginComponent {
 
   constructor(public http: HttpClient,
     public authService: AuthService,
-    public cartService : CartService,
+    public cartService: CartService,
+    public orderService : OrderService,
     public router: Router) { }
     
   
@@ -36,6 +38,7 @@ export class LoginComponent {
           this.successMessage = res.message
           this.authService.customer_id = res.user_id
           this.cartService.customer_id = res.user_id
+          this.orderService.customer_id = res.user_id
           if (res.token_id) {
             this.authService.setToken(res.token_id)
             this.router.navigate(["/home"])

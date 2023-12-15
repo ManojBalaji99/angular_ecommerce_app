@@ -13,6 +13,10 @@
     </button>
 
     
+    <button mat-icon-button [routerLink]="'/orderhistory'" *ngIf="authService.isAuthenticated()">
+        <mat-icon class="mat-18">history</mat-icon>
+    </button>
+    
     <button [routerLink]="'/signup'" mat-icon-button *ngIf="!authService.isAuthenticated()">
         <mat-icon>person_add</mat-icon>
     </button>

@@ -7,6 +7,7 @@ import { HeaderComponent } from './header/header.component';
 import { AuthheaderComponent } from './auth/components/authheader/authheader.component';
 import { CartComponent } from './pages/cart/cart/cart.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { OrderhistoryComponent } from './pages/orderhistory/orderhistory.component';
 
 const routes: Routes = [{ path: "signup", component: SignupComponent },
                         {path : "login",component:LoginComponent},
@@ -15,7 +16,9 @@ const routes: Routes = [{ path: "signup", component: SignupComponent },
                         { path: "home", component: HomeComponent },
                         { path: "header", component: HeaderComponent },
   { path: "cart", component: CartComponent },
-                        {path:"checkout", component: CheckoutComponent}
+  { path: "checkout", component: CheckoutComponent },
+  {path : "orderhistory",component: OrderhistoryComponent}
+                        
 ];
 
 @NgModule({
