@@ -38,7 +38,10 @@ ngOnInit(): void {
     total_amount,
     placed_time,
     cancelled_time,
-    delivered_time
+    delivered_time,
+    full_name,
+    address,
+    city
   } = order;
 
  
@@ -74,7 +77,10 @@ ngOnInit(): void {
       total: parseFloat(total_amount), // Convert total_amount to number
       placed_time: placed_time,
       cancelled_time: cancelled_time,
-      delivered_time: delivered_time
+      delivered_time: delivered_time,
+      full_name: full_name,
+      address: address,
+      city : city
     };
 
     result.push(newOrder);

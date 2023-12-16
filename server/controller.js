@@ -195,13 +195,18 @@ const getOrderHistory = async (req, res) => {
         orders.total_amount,
         orders.placed_time,
         orders.cancelled_time,
-        orders.delivered_time
+        orders.delivered_time,
+        customerShippingAddress.full_name,
+        customerShippingAddress.address,
+        customerShippingAddress.city
       FROM
         orders
       JOIN
         order_details ON orders.order_id = order_details.order_id
       JOIN
         products ON products.product_id = order_details.product_id
+      JOIN
+        customerShippingAddress ON customerShippingAddress.order_id = orders.order_id
       WHERE
         orders.customer_id = ?
     `;

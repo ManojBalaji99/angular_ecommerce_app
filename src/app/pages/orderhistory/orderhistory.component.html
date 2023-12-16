@@ -8,7 +8,7 @@
                 <mat-expansion-panel *ngIf="order.status == 'Placed'">
                     <mat-expansion-panel-header>
                         <mat-panel-title>Order_id : {{order.orderid}} </mat-panel-title>
-                        <mat-panel-description>Order was {{order.status}}</mat-panel-description>
+                        <mat-panel-description>Order was {{order.status}} by {{order.full_name}}</mat-panel-description>
                     </mat-expansion-panel-header>
                     <table class="table table-bordered table-striped order-table">
                         <thead class="thead-light">
@@ -58,7 +58,7 @@
                             <mat-panel-title>Order_id : {{order.orderid}} </mat-panel-title>
                             <mat-panel-description>Order was {{order.status}}</mat-panel-description>
                         </mat-expansion-panel-header>
-                        <table class="table table-bordered table-striped order-table">
+                        <table class="table table-bordered table-striped order-table">      
                             <thead class="thead-light">
                                 <tr>
                                     <th class="text-center">Product</th>
@@ -103,7 +103,7 @@
                 <mat-expansion-panel *ngIf="order.status == 'Delivered'">
                     <mat-expansion-panel-header>
                         <mat-panel-title>Order_id : {{order.orderid}} </mat-panel-title>
-                        <mat-panel-description>Order was {{order.status}}</mat-panel-description>
+                        <mat-panel-description>Order was {{order.status}} to {{order.full_name}}</mat-panel-description>
                     </mat-expansion-panel-header>
                     <table class="table table-bordered table-striped order-table">
                         <thead class="thead-light">
@@ -127,6 +127,9 @@
                     </table>
                     <div class="d-flex justify-content-between">
                         <button mat-button class="border border-info" [matMenuTriggerFor]="menu">Time and Date</button>
+                        <div>
+                            Delivery Address : {{order.address}}, {{order.city}}
+                        </div>
                     </div>
     
                     <mat-menu #menu="matMenu">
