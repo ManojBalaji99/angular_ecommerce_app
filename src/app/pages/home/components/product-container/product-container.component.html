@@ -1,10 +1,9 @@
-<mat-card *ngIf="product" [class.text-center]="!fullWidthMode" [class.mb-3]="fullWidthMode"
-    [class.border]="fullWidthMode" [class.border-primary]="fullWidthMode">
-    <div [class.flex]="fullWidthMode">
-        <img class="mb-1 mx-auto" [class.h-[200px]]="!fullWidthMode" [class.h-[360px]]="fullWidthMode"
-            [src]="" alt="Product Image" />
-        <div class="w-full" [class.px-8]="fullWidthMode" [class.flex]="fullWidthMode" [class.flex-col]="fullWidthMode"
-            [class.justify-between]="fullWidthMode">
+<mat-card *ngIf="product" class="product-card"
+    [ngClass]="{'text-center': !fullWidthMode, 'mb-3': fullWidthMode, 'border': fullWidthMode, 'border-primary': fullWidthMode}">
+    <div fxLayout="row" fxLayout.gt-xs="column" fxLayoutAlign="space-around center">
+        <img class="mb-1 mx-auto" [class.h-[200px]]="!fullWidthMode" [class.h-[360px]]="fullWidthMode" [src]=""
+            alt="Product Image" />
+        <div fxFlex="50%" [class.px-8]="fullWidthMode" fxLayout="column" fxLayoutAlign="start stretch">
             <mat-card-header>
                 <mat-card-title>{{ product.product_name }}</mat-card-title>
                 <mat-card-subtitle>{{ product.category }}</mat-card-subtitle>
@@ -22,4 +21,5 @@
         </div>
     </div>
 </mat-card>
+
 

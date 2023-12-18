@@ -30,6 +30,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import {MatTabsModule} from '@angular/material/tabs';
 
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { SignupComponent } from './auth/components/signup/signup.component';
 import { LoginComponent } from './auth/components/login/login.component';
 import { AuthheaderComponent } from './auth/components/authheader/authheader.component';
@@ -80,7 +82,7 @@ import { OrderhistoryComponent } from './pages/orderhistory/orderhistory.compone
     MatInputModule,
     MatRadioModule,
     MatTabsModule,
-
+    FlexLayoutModule,
 
     FormsModule,
     HttpClientModule,
