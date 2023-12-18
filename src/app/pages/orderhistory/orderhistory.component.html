@@ -128,7 +128,7 @@
                     <div class="d-flex justify-content-between">
                         <button mat-button class="border border-info" [matMenuTriggerFor]="menu">Time and Date</button>
                         <div>
-                            Delivery Address : {{order.address}}, {{order.city}}
+                            Delivery Address : {{order.address}} , {{order.city}}
                         </div>
                     </div>
     
@@ -137,7 +137,7 @@
                             Order Placed on {{order.placed_time | date:'dd-MM-yyyy HH:mm:ss'}}
                         </div>
                         <div>
-                            Order Cancelled on {{order.delivered_time | date:'dd-MM-yyyy HH:mm:ss'}}
+                            Order Delivered on {{order.delivered_time | date:'dd-MM-yyyy HH:mm:ss'}}
                         </div>
                     </mat-menu>
                 </mat-expansion-panel>
