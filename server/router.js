@@ -1,12 +1,17 @@
 const express = require('express')
 const {getProducts,addCustomer,loginValidation,cartProductbyCustomer,getCartProductofCustomer,orderPlaced,getOrderHistory,orderCancelled,orderDelivered} = require ('./controller')
-
+const {authenticateToken} = require("./middleware")
 const router = express.Router()
 
 
-//custom routes
+//custom routes without middlwware
 router.post("/addCustomer", addCustomer)
 router.put("/login", loginValidation)
+
+
+router.use(authenticateToken)
+
+// router with middleware
 router.get("/products", getProducts)
 router.post("/cartproducts", cartProductbyCustomer)
 router.get("/getCartProduct", getCartProductofCustomer)

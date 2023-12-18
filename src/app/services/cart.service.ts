@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Cart,Cartproduct } from 'src/modals/cart.modals';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from './auth.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,8 @@ export class CartService  {
   cart = new BehaviorSubject<Cart>({ items: [] });
 
   constructor(private snackBar: MatSnackBar,
-    public http : HttpClient) { }
+    public http: HttpClient,
+  public authService : AuthService) { }
 
   addToCart(item: Cartproduct): void {
     const items = [...this.cart.value.items];
@@ -90,12 +91,16 @@ export class CartService  {
   }
 
   cartUpdate() {
+    
+    let headers = this.authService.headers()
     let cartProducts = { customer_id: this.customer_id, products: this.cart.value.items}
-    this.http.post("http://localhost:3000/api/cartproducts",cartProducts).subscribe()
+    this.http.post("http://localhost:3000/api/cartproducts",cartProducts,{headers}).subscribe()
   }
-getCartHistory(id?: string): void {
+  getCartHistory(id?: string): void {
+   
+    let headers = this.authService.headers()
   if (id) {
-    this.http.get(`http://localhost:3000/api/getCartProduct?customer_id=${id}`).subscribe(
+    this.http.get(`http://localhost:3000/api/getCartProduct?customer_id=${id}`,{headers}).subscribe(
       (data) => {
         if (data && Array.isArray(data)) {
           this.cart.next({ items: data as Cartproduct[] });

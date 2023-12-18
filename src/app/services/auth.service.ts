@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -25,5 +26,10 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+  }
+
+  headers(): HttpHeaders {
+    let token = this.getToken()
+    return new HttpHeaders().set("Authorization",`${token}`)
   }
 }

@@ -3,8 +3,9 @@ import { Cart, Cartproduct } from 'src/modals/cart.modals';
 import { CartService } from 'src/app/services/cart.service';
 import { Subscription } from 'rxjs';
 import { PaymentDetails, shippingAddress } from 'src/modals/checkout.modal';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-checkout',
@@ -36,7 +37,8 @@ export class CheckoutComponent implements OnInit{
   
   constructor(public cartService: CartService,
     public http: HttpClient,
-    public router : Router) { }
+    public router: Router,
+    public authService : AuthService) { }
 
   ngOnInit(): void {
     this.cartSubscription = this.cartService.cart.subscribe((cart: Cart) => {
@@ -73,7 +75,8 @@ paymentDetailsOnline(): PaymentDetails | undefined {
   async submitOrder() {
     let orders = {products : this.cart.items, shippingAddress: this.confirmShippingAddress(), paymentDetails :this.paymentDetailsOnline()}
     console.log(orders)
-     this.http.post("http://localhost:3000/api/orderPlaced", orders).subscribe((data)=>{
+    let headers = this.authService.headers()
+     this.http.post("http://localhost:3000/api/orderPlaced", orders,{headers}).subscribe((data)=>{
       if (data) {
          this.cartService.clearCart()
         this.router.navigate(["/orderhistory"])
